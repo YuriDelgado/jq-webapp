@@ -5,6 +5,7 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonText,
 } from "@ionic/react";
 import "./Quotation.css";
 import PrioritySegment from "../components/PrioritySegment";
@@ -20,7 +21,8 @@ type Product = {
 const Quotation: React.FC = () => {
   const [priority, setPriority] = useState<string>("");
   const [product, setProduct] = useState<number>();
-  const [quantity, setQuantity] = useState<number>(0);
+  const [quantity, setQuantity] = useState<string>("0");
+  const [thickness, setThickness] = useState<number>(0);
   const [deliveryDate, setDeliveryDate] = useState<string>("");
 
   return (
@@ -31,25 +33,38 @@ const Quotation: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Cotizador</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <PrioritySegment
-          onPriorityChange={(priority) => setPriority(priority)}
-        />
-        <ProductSelector
-          onProductChange={(productId) => setProduct(productId)}
-        />
-        <Thickness />
-        <ProductQuantity />
-        <PickDeliveryDate />
+        <div className="main-content">
+          <IonHeader collapse="condense">
+            <IonToolbar>
+              <IonTitle size="large">Cotizador</IonTitle>
+            </IonToolbar>
+          </IonHeader>
+          <PrioritySegment
+            onPriorityChange={(priority) => setPriority(priority)}
+          />
+          <ProductSelector
+            onProductChange={(productId) => setProduct(productId)}
+          />
+          <Thickness
+            onThicknessChange={(thickness) => setThickness(thickness)}
+          />
+          <ProductQuantity
+            onQuantityChange={(quantity) => setQuantity(quantity)}
+          />
+          <PickDeliveryDate
+            onDeliveryDateChange={(deliveryDate) =>
+              setDeliveryDate(deliveryDate)
+            }
+          />
+        </div>
       </IonContent>
-      <IonContent>
+      <IonText>
         <div>Prod: {product}</div>
         <div>Prio: {priority}</div>
-      </IonContent>
+        <div>thickness: {thickness}</div>
+        <div>quantity: {quantity}</div>
+        <div>Delivery date: {deliveryDate}</div>
+      </IonText>
     </IonPage>
   );
 };

@@ -1,19 +1,26 @@
 import React, { useState } from "react";
-import { IonItem, IonInput, IonLabel } from "@ionic/react";
+import { IonInput, IonLabel } from "@ionic/react";
 
-const ProductQuantity: React.FC = () => {
-  const [text, setText] = useState<string>("");
+type Props = {
+  onQuantityChange: (quantity: string) => void;
+};
+
+const ProductQuantity: React.FC<Props> = (props) => {
+  const [quantity, setQuantity] = useState<string>("0");
   return (
-    <IonItem>
-      <IonLabel position="stacked">Cantidad: </IonLabel>
+    <IonLabel>
+      <div>Cantidad: </div>
       <IonInput
-        value={text}
+        value={quantity}
         type="number"
         step="5"
         placeholder="Número de piezas"
-        onIonChange={(e) => setText(e.detail.value!)}
+        onIonChange={(e) => {
+          setQuantity(e.detail.value!);
+          props.onQuantityChange(e.detail.value!);
+        }}
       ></IonInput>
-    </IonItem>
+    </IonLabel>
   );
 };
 

@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { IonLabel, IonRange, IonItemDivider } from "@ionic/react";
 import "./Thickness.css";
 
-const Thickness: React.FC = () => {
+type Props = {
+  onThicknessChange: (thickness: number) => void;
+};
+
+const Thickness: React.FC<Props> = (props) => {
   const [thickness, setThickness] = useState<number>(0);
 
   return (
@@ -15,7 +19,10 @@ const Thickness: React.FC = () => {
           step={10}
           pin={true}
           value={thickness}
-          onIonChange={(e) => setThickness(e.detail.value as number)}
+          onIonChange={(e) => {
+            setThickness(e.detail.value as number);
+            props.onThicknessChange(e.detail.value as number);
+          }}
         />
       </div>
       <IonItemDivider />

@@ -17,20 +17,21 @@ const PrioritySegment: React.FC<Params> = (params) => {
   return (
     <IonItem>
       <IonSegment
+        value={priority}
         onIonChange={(e) => {
           setPriority(e.detail.value as string);
           params.onPriorityChange(e.detail.value as string);
         }}
       >
-        <IonSegmentButton value="home">
+        <IonSegmentButton value="normal">
           <IonIcon icon={home} />
           <IonLabel>Normal</IonLabel>
         </IonSegmentButton>
-        <IonSegmentButton value="pin">
+        <IonSegmentButton value="express">
           <IonIcon icon={pin} />
           <IonLabel>Express</IonLabel>
         </IonSegmentButton>
-        <IonSegmentButton value="star">
+        <IonSegmentButton value="urgente">
           <IonIcon icon={star} />
           <IonLabel>Urgente</IonLabel>
         </IonSegmentButton>
