@@ -19,9 +19,9 @@ type Product = {
 };
 
 const Quotation: React.FC = () => {
-  const [priority, setPriority] = useState<string>("");
+  const [priority, setPriority] = useState<string>("normal");
   const [product, setProduct] = useState<number>();
-  const [quantity, setQuantity] = useState<string>("0");
+  const [quantity, setQuantity] = useState<string>("");
   const [thickness, setThickness] = useState<number>(0);
   const [deliveryDate, setDeliveryDate] = useState<string>("");
 
