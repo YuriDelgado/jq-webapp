@@ -5,7 +5,10 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  IonText,
+  IonItem,
+  IonModal,
+  IonButton,
+  IonToast,
 } from "@ionic/react";
 import "./Quotation.css";
 import PrioritySegment from "../components/PrioritySegment";
@@ -18,12 +21,49 @@ type Product = {
   description: string;
 };
 
+type Order = {
+  id: number;
+  priority: string;
+  product_id: number;
+  quantity: string;
+  thickness: number;
+  deliveryDate: string;
+};
 const Quotation: React.FC = () => {
   const [priority, setPriority] = useState<string>("normal");
-  const [product, setProduct] = useState<number>();
+  const [productId, setProductId] = useState<number>(0);
   const [quantity, setQuantity] = useState<string>("");
   const [thickness, setThickness] = useState<number>(0);
   const [deliveryDate, setDeliveryDate] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [order, setOrder] = useState<Order>();
+  const [showToast, setShowToast] = useState<boolean>();
+
+  const sendOrder = () => {
+    const ord: Order = {
+      id: 1,
+      priority: priority,
+      product_id: productId,
+      quantity: quantity,
+      thickness: thickness,
+      deliveryDate: deliveryDate,
+    };
+    setOrder(ord);
+    setShowModal(false);
+    getOrder();
+    return true;
+  };
+
+  const getOrder = () => {
+    return (
+      <IonToast
+        isOpen={!!showToast}
+        onDidDismiss={() => setShowToast(false)}
+        message={`Your order ${order && order.id} has been saved.`}
+        duration={200}
+      />
+    );
+  };
 
   return (
     <IonPage>
@@ -43,7 +83,7 @@ const Quotation: React.FC = () => {
             onPriorityChange={(priority) => setPriority(priority)}
           />
           <ProductSelector
-            onProductChange={(productId) => setProduct(productId)}
+            onProductChange={(productId) => setProductId(productId)}
           />
           <Thickness
             onThicknessChange={(thickness) => setThickness(thickness)}
@@ -58,13 +98,18 @@ const Quotation: React.FC = () => {
           />
         </div>
       </IonContent>
-      <IonText>
-        <div>Prod: {product}</div>
-        <div>Prio: {priority}</div>
-        <div>thickness: {thickness}</div>
-        <div>quantity: {quantity}</div>
-        <div>Delivery date: {deliveryDate}</div>
-      </IonText>
+      <IonContent>
+        <IonModal isOpen={showModal}>
+          <IonItem>ProdId: {productId}</IonItem>
+          <IonItem>Prio: {priority}</IonItem>
+          <IonItem>thickness: {thickness}</IonItem>
+          <IonItem>quantity: {quantity}</IonItem>
+          <IonItem>Delivery date: {deliveryDate}</IonItem>
+          <IonButton onClick={() => sendOrder()}>Process order</IonButton>
+          <IonButton onClick={() => setShowModal(false)}>Dismiss</IonButton>
+        </IonModal>
+        <IonButton onClick={() => setShowModal(true)}>Show Modal</IonButton>
+      </IonContent>
     </IonPage>
   );
 };
